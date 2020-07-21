@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Aux from '../../../hoc/Aux';
 import withClass from '../../../hoc/withClass';
+import AuthContext from '../../../context/auth-context';
 import classes from './Person.module.css';
 
 class Person extends Component {
@@ -20,15 +21,21 @@ class Person extends Component {
         console.log('Person.js] rendering...');
         return (
             <Aux>
-                {this.props.isAuth ? <p>Authenticated!!!</p> : <p>please Login</p>}
-                <p onClick={this.props.click}>I'am {this.props.name} and I am {this.props.age} years old! {this.props.children}</p>
-                <input 
-                    key ="k2"
-                    //ref={(inputEl)=>{this.inputElement = inputEl}}
-                    ref={this.inputElementRef}
-                    type="text" 
-                    onChange={this.props.changed} 
-                    value={this.props.name}/> 
+                <AuthContext.Consumer>
+                    {context => 
+                        context.authenticated ? <p>Authenticated!!!</p> : <p>please Login</p>
+                    }
+                </AuthContext.Consumer>
+                    <p onClick={this.props.click}>I'am {this.props.name} and I am {this.props.age} years old! {this.props.children}</p>
+                    <input 
+                        key ="k2"
+                        //ref={(inputEl)=>{this.inputElement = inputEl}}
+                        ref={this.inputElementRef}
+                        type="text" 
+                        onChange={this.props.changed} 
+                        value={this.props.name}
+                    />
+                
             </Aux>
         );
     }
